@@ -1,14 +1,22 @@
 package com.example.NestDigitalApplication.Controller;
 
+import com.example.NestDigitalApplication.dao.EmployeeDao;
+import com.example.NestDigitalApplication.model.Employee;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 
 @RestController
 public class AdminController {
+
+    @Autowired
+    private EmployeeDao empdao;
     @CrossOrigin(origins = "*")
     @PostMapping(path = "/addEmployee", consumes = "application/json", produces = "application/json")
     public HashMap<String, String> AddEmployee(@RequestBody Employee emp){
@@ -30,5 +38,11 @@ public class AdminController {
             hashMap.put("status","failed");
         }
         return hashMap;
+    }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping(path = "/searchEmployee", consumes = "application/json", produces = "application/json")
+    public List<Employee> SearchEmployee(@RequestBody Employee emp){
+        return  (List<Employee>) empdao.SearchEmployee(emp.getName());
     }
 }
