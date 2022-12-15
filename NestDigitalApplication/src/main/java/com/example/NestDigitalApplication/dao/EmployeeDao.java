@@ -26,4 +26,20 @@ public interface EmployeeDao extends CrudRepository<Employee,Integer> {
     @Transactional
     @Query(value = "DELETE FROM `employee` WHERE `id`= :id", nativeQuery = true)
     void DeleteEmployee(@Param("id") int id);
+
+    @Query(value = "SELECT `id`, `designation`, `email`, `emp_code`, `name`, `password`, `phone`, `username` FROM `employee` WHERE `username`= :username AND `password`= :password", nativeQuery = true)
+    List<Employee> UserLoginDetails(@Param("username") String username, @Param("password") String password);
+
+    @Query(value = "SELECT `id`, `designation`, `email`, `emp_code`, `name`, `password`, `phone`, `username` FROM `employee` WHERE `username`= :username AND `password`= :password AND `emp_code`= :empCode", nativeQuery = true)
+    List<Employee> UserLoginDetailsByCred(@Param("username") String username, @Param("password") String password,@Param("empCode") String empCode);
+
+    @Query(value = "SELECT `id`, `designation`, `email`, `emp_code`, `name`, `password`, `phone`, `username` FROM `employee` WHERE `emp_code`= :empCode", nativeQuery = true)
+    List<Employee> UserLoginDetailsById(@Param("empCode") String empCode);
+
+    @Query(value = "SELECT `id`, `designation`, `email`, `emp_code`, `name`, `password`, `phone`, `username` FROM `employee` WHERE `id`= :id", nativeQuery = true)
+    List<Employee> GetEmployeeProfile(@Param("id") int id);
+
+
+    @Query(value = "SELECT `id` FROM `employee` WHERE `emp_code`= :id", nativeQuery = true)
+    List<Employee> GetEmployeeId(@Param("id") int id);
 }

@@ -1,14 +1,16 @@
 package com.example.NestDigitalApplication.Controller;
 
 import com.example.NestDigitalApplication.dao.EmployeeDao;
+import com.example.NestDigitalApplication.dao.Leave1Dao;
+import com.example.NestDigitalApplication.dao.SecurityDao;
 import com.example.NestDigitalApplication.model.Employee;
+import com.example.NestDigitalApplication.model.Leaves1;
+import com.example.NestDigitalApplication.model.Security;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 
@@ -17,6 +19,14 @@ public class AdminController {
 
     @Autowired
     private EmployeeDao empdao;
+
+    @Autowired
+    private SecurityDao sdao;
+
+    @Autowired
+    private Leave1Dao l1dao;
+
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy");
     @CrossOrigin(origins = "*")
     @PostMapping(path = "/addEmployee", consumes = "application/json", produces = "application/json")
     public HashMap<String, String> AddEmployee(@RequestBody Employee emp){
@@ -65,5 +75,18 @@ public class AdminController {
         return hashMap;
     }
 
+    @CrossOrigin(origins = "*")
+    @GetMapping("/viewAllEmployee")
+    public List<Employee> GetAllEmployee(){
+        return (List<Employee>) empdao.findAll();
+    }
+    @CrossOrigin(origins = "*")
+    @PostMapping(path = "/addSecurity", consumes = "application/json", produces = "application/json")
+    public HashMap<String, String> AddSecurity(@RequestBody Security sc) {
+        sdao.save(sc);
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("status", "success");
+        return hashMap;
+    }
 
 }
