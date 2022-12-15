@@ -56,5 +56,14 @@ public class AdminController {
         return hashMap;
     }
 
+    @CrossOrigin(origins = "*")
+    @PostMapping(path = "/deleteEmployee", consumes = "application/json", produces = "application/json")
+    public HashMap<String, String> DeleteEmployee(@RequestBody Employee emp){
+        empdao.DeleteEmployee(emp.getId());
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("status","success");
+        return hashMap;
+    }
+
 
 }
